@@ -4,6 +4,9 @@ class Scene2 extends Phaser.Scene {
     }
 
     create() {
+
+        this.cameras.main.setBounds(0, 0, 800, 1600);
+
         ////////////////////////////Mis Plataformas y Fondo///////////////////////////
         //  A simple background for our game
         this.add.image(420, 300, 'sky2');
@@ -171,6 +174,9 @@ class Scene2 extends Phaser.Scene {
         //acá la idea es encontrar una alternativa para el cálculo del tiempo a 60 cuadros por seg
         x1 = x1 + 0.01666;
         tempText.setText('Time: ' + Math.trunc(x1));
+
+        //seguimiento de cámara
+        this.cameras.main.startFollow(player);
 
     }
 
