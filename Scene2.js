@@ -5,61 +5,81 @@ class Scene2 extends Phaser.Scene {
 
     create() {
 
+        // Inicializacion de variables.
+        score = 0;
+        gameOver = false;
+        vidas = 3;
+
+        this.physics.world.setBounds(0, 0, 800, 1600, true, true, true, true);
         this.cameras.main.setBounds(0, 0, 800, 1600);
 
         ////////////////////////////Mis Plataformas y Fondo///////////////////////////
-        //  A simple background for our game
-        this.add.image(420, 300, 'sky2');
+        // Fondo
+        this.add.image(420, 840, 'sky2');
 
         //  The platforms group contains the ground and the 2 ledges we can jump on
         platforms = this.physics.add.staticGroup();
 
-        //Plataforma oscilante
-        var plat2 = this.physics.add.image(80, 460, 'ground').setScale(0.12);
+        platforms.create(10, 250, 'ground').setScale(0.5).refreshBody();
+        platforms.create(200, 450, 'ground').setScale(0.5).refreshBody();
+        platforms.create(790, 500, 'ground').setScale(0.5).refreshBody();
+        platforms.create(600, 600, 'ground').setScale(0.5).refreshBody();
+        platforms.create(370, 650, 'ground').setScale(0.5).refreshBody();
+        platforms.create(200, 800, 'ground').setScale(0.5).refreshBody();
+        platforms.create(750, 800, 'ground').setScale(0.5).refreshBody();
+        platforms.create(400, 950, 'ground').setScale(0.5).refreshBody();
+        platforms.create(790, 1080, 'ground').setScale(0.5).refreshBody();
+        platforms.create(200, 1080, 'ground').setScale(0.5).refreshBody();
+        platforms.create(470, 1200, 'ground').setScale(0.5).refreshBody();
+        platforms.create(200, 1350, 'ground').setScale(0.5).refreshBody();
+        platforms.create(700, 1350, 'ground').setScale(0.5).refreshBody();
+
+        //  Piso
+        platforms.create(400, 1530, 'ground').setScale(2.2).refreshBody();
+
+        //Plataforma oscilante horizontal
+        var plat2 = this.physics.add.image(200, 360, 'ground').setScale(0.5);
         plat2.body.allowGravity = false;
         plat2.body.immovable = true;
         plat2.body.moves = false;
 
         var tween = this.tweens.add({
             targets: plat2,
-            x: 350,
+            duration: 2000,
+            x: 600,
             paused: false,
             yoyo: true,
             repeat: -1
         });
 
         //Plataforma oscilante vertical
-        var plat3 = this.physics.add.image(50, 60, 'ground').setScale(0.12);
+        var plat3 = this.physics.add.image(45, 400, 'ground').setScale(0.3);
         plat3.body.allowGravity = false;
         plat3.body.immovable = true;
         plat3.body.moves = false;
 
         var tween = this.tweens.add({
             targets: plat3,
-            duration: 3000,
-            y: 500,
+            duration: 8000,
+            ease: 'Sine.easeInOut',
+            y: 1430,
             paused: false,
             yoyo: true,
             repeat: -1
         });
 
+        //////////////////////////////jugador y cazador////////////////////////////////////
+        cazador = this.physics.add.image(35, 300, 'hunter');
+        cazador.setBounce(0);
+        cazador.setCollideWorldBounds(true);
+        cazador.setScale(0.25);
+        cazador.setGravity(0, 300);
 
+        // The player and its settings
+        player = this.physics.add.sprite(400, 1400, 'dude');
 
-        //  Here we create the ground.
-        platforms.create(400, 568, 'ground').setScale(1.1).refreshBody();
-
-        //  Now let's create some ledges
-        platforms.create(640, 400, 'ground').setScale(0.6).refreshBody();
-        platforms.create(10, 250, 'ground').setScale(0.6).refreshBody();
-        platforms.create(790, 220, 'ground').setScale(0.6).refreshBody();
-        platforms.create(370, 315, 'ground').setScale(0.12).refreshBody();
-        platforms.create(370, 180, 'ground').setScale(0.12).refreshBody();
-
-        // The player and its settings (Mantengo original)
-        player = this.physics.add.sprite(100, 450, 'dude');
-
-        //  Player physics properties. Give the little guy a slight bounce.
-        player.setBounce(0.2);
+        //  Player physics properties.
+        player.setBounce(0);
         player.setCollideWorldBounds(true);
         player.setScale(0.85);
 
@@ -117,15 +137,30 @@ class Scene2 extends Phaser.Scene {
                 stroke: true,
                 fill: true
             }
-
         });
 
-        //Para el tiempo en pantalla
-        tempText = this.add.text(610, 560, 'Time: 0', {
+        scoreText.setScrollFactor(0);
+
+        //////////////////////////////Tiempo en pantalla////////////////////////////////
+        tempText = this.add.text(610, 560, 'Tiempo: 180', {
             font: '32px Montserrat',
             fill: '#000',
-
         });
+        tempText.setScrollFactor(0);
+
+        // inicializador de tiempo
+        initialTime = 180
+            //timedEvent = this.time.delayedCall(1000, this.onSecond, [], this, true);
+        timedEvent = this.time.addEvent({ delay: 1000, callback: this.onSecond, callbackScope: this, loop: true });
+        timeText = this.add.text(500, 16, '', { fontSize: '32px', fill: '#000' });
+
+
+        //Para las vidas en pantalla
+        vidasText = this.add.text(70, 560, 'Vidas: ' + vidas, {
+            font: '32px Montserrat',
+            fill: '#000',
+        });
+        vidasText.setScrollFactor(0);
 
         //  Collide the player and the stars with the platforms
         this.physics.add.collider(player, platforms);
@@ -136,15 +171,14 @@ class Scene2 extends Phaser.Scene {
         this.physics.add.collider(stars2, plat2);
         this.physics.add.collider(bombs, platforms);
         this.physics.add.collider(bombs, plat2);
+        this.physics.add.collider(cazador, plat3);
 
         //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
         this.physics.add.overlap(player, stars, this.collectStar, null, this);
         this.physics.add.overlap(player, stars2, this.collectStarRed, null, this);
         this.physics.add.collider(player, bombs, this.hitBomb, null, this);
 
-        // Inicializacion de variables.
-        score = 0;
-        gameOver = false;
+
 
     }
 
@@ -168,17 +202,14 @@ class Scene2 extends Phaser.Scene {
         }
 
         if (cursors.up.isDown && player.body.touching.down) {
-            player.setVelocityY(-220);
+            player.setVelocityY(-330);
         }
-
-        //acá la idea es encontrar una alternativa para el cálculo del tiempo a 60 cuadros por seg
-        x1 = x1 + 0.01666;
-        tempText.setText('Time: ' + Math.trunc(x1));
 
         //seguimiento de cámara
         this.cameras.main.startFollow(player);
 
     }
+
 
     collectStar(player, star) {
         star.disableBody(true, true);
@@ -252,6 +283,29 @@ class Scene2 extends Phaser.Scene {
             .setInteractive()
             .on('pointerdown', () => this.scene.start('creditos'));
         Phaser.Display.Align.In.Center(gameOverButton, this.add.zone(400, 300, 800, 600));
+
+        gameOverButton.setScrollFactor(0);
+    }
+
+    onSecond() {
+        if (!gameOver) {
+            initialTime = initialTime - 1; // One second
+            tempText.setText('Tiempo: ' + initialTime);
+            if (initialTime == 0) {
+
+                var sintiempo = this.add.text(700, 500, 'Sin tiempo\nPerdes una vida', { fontFamily: 'Arial', fontSize: 70, color: '#ff0000' });
+                Phaser.Display.Align.In.Center(sintiempo, this.add.zone(400, 300, 800, 600));
+                sintiempo.setScrollFactor(0);
+
+                setTimeout(() => {
+                    sintiempo.visible = false;
+                }, 2000);
+
+                initialTime = 180;
+                vidas = vidas - 1;
+
+            }
+        }
 
     }
 

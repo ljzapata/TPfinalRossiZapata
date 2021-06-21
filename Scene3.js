@@ -33,7 +33,8 @@ class Scene3 extends Phaser.Scene {
             "UNRAF 2021",
             "Programación 1",
             "Docentes: Nicolás Nocete - Federico Degiovanni",
-            "Alumno: Nicolás Rossi"
+            "Alumnos: Leandro Zapata - Nicolás Rossi",
+            "Materia optativa en el marco de la Lic. en Diseño Industrial"
         ];
         this.add.text(20, 390, datosfin, { font: '20px Montserrat', color: '#ffffff' })
 

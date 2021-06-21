@@ -18,6 +18,8 @@ var score;
 var gameOver;
 
 var player;
+var cazador;
+var cazador2;
 var stars;
 var bombs;
 var platforms;
@@ -31,4 +33,9 @@ var timeText;
 var stars2;
 
 var x1 = 0;
+var x2 = 10;
 var tempText;
+var tempText2;
+
+var vidas;
+var vidasText;
