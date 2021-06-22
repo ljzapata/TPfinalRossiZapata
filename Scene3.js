@@ -4,52 +4,24 @@ class Scene3 extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('logo2D', 'assets/logo2D.png');
+        this.load.image('FondoCreditos', 'assets/Escena 3 CREDITOS.png');
+        this.load.image('BotonInicio', 'assets/BotonInicio.png');
     }
 
     create() {
-        this.add.image(400, 300, 'sky2');
-        this.add.image(400, 568, 'ground').setScale(1)
-        this.add.image(400, 100, 'logo2D');
+        this.add.image(400, 300, 'FondoCreditos').setScale(0.24);
 
-
-        var puntajefinal = this.add.text(0, 0, score, {
-            font: '80px Montserrat',
-            fill: '#ff0000',
-            shadow: {
-                offsetX: 3,
-                offsetY: 3,
-                color: '#ffffff',
-                blur: 5,
-                stroke: true,
-                fill: true
-            }
-
-        });
-
-        Phaser.Display.Align.In.Center(puntajefinal, this.add.zone(400, 300, 800, 600));
-
-        var datosfin = [
-            "UNRAF 2021",
-            "Programación 1",
-            "Docentes: Nicolás Nocete - Federico Degiovanni",
-            "Alumnos: Leandro Zapata - Nicolás Rossi",
-            "Materia optativa en el marco de la Lic. en Diseño Industrial"
-        ];
-        this.add.text(20, 390, datosfin, { font: '20px Montserrat', color: '#ffffff' })
-
-        var restartButton = this.add.text(610, 550, 'Jugar', { font: '30px Montserrat', color: '#000000' })
+        var jugarButton = this.add.image(720, 550, 'BotonJugar').setScale(0.5)
             .setInteractive()
             .on('pointerdown', () => this.jugar());
 
-        var volverButton = this.add.text(80, 550, 'Volver', { font: '30px Montserrat', color: '#000000' })
+            var ayudaButton = this.add.image(80, 550, 'BotonInicio').setScale(0.5)
             .setInteractive()
             .on('pointerdown', () => this.volver());
     }
 
     jugar() {
         this.scene.start('juego');
-        this.sound.stopAll();
     }
 
     volver() {

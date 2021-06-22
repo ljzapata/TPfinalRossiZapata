@@ -15,27 +15,27 @@ class Scene2 extends Phaser.Scene {
 
         ////////////////////////////Mis Plataformas y Fondo///////////////////////////
         // Fondo
-        this.add.image(420, 840, 'sky2');
+        this.add.image(400, 800, 'sky1').setScale(0.24);
 
         //  The platforms group contains the ground and the 2 ledges we can jump on
         platforms = this.physics.add.staticGroup();
 
-        platforms.create(10, 250, 'ground').setScale(0.5).refreshBody();
-        platforms.create(200, 450, 'ground').setScale(0.5).refreshBody();
-        platforms.create(790, 500, 'ground').setScale(0.5).refreshBody();
-        platforms.create(600, 600, 'ground').setScale(0.5).refreshBody();
-        platforms.create(370, 650, 'ground').setScale(0.5).refreshBody();
-        platforms.create(200, 800, 'ground').setScale(0.5).refreshBody();
-        platforms.create(750, 800, 'ground').setScale(0.5).refreshBody();
-        platforms.create(400, 950, 'ground').setScale(0.5).refreshBody();
-        platforms.create(790, 1080, 'ground').setScale(0.5).refreshBody();
-        platforms.create(200, 1080, 'ground').setScale(0.5).refreshBody();
-        platforms.create(470, 1200, 'ground').setScale(0.5).refreshBody();
-        platforms.create(200, 1350, 'ground').setScale(0.5).refreshBody();
-        platforms.create(700, 1350, 'ground').setScale(0.5).refreshBody();
+        platforms.create(650, 260, 'ground').setScale(0.5).refreshBody();
+        platforms.create(220, 460, 'ground').setScale(0.5).refreshBody();
+        platforms.create(790, 510, 'ground').setScale(0.5).refreshBody();
+        platforms.create(600, 610, 'ground').setScale(0.5).refreshBody();
+        platforms.create(370, 660, 'ground').setScale(0.5).refreshBody();
+        platforms.create(220, 810, 'ground').setScale(0.5).refreshBody();
+        platforms.create(750, 810, 'ground').setScale(0.5).refreshBody();
+        platforms.create(400, 960, 'ground').setScale(0.5).refreshBody();
+        platforms.create(790, 1090, 'ground').setScale(0.5).refreshBody();
+        platforms.create(220, 1090, 'ground').setScale(0.5).refreshBody();
+        platforms.create(470, 1210, 'ground').setScale(0.5).refreshBody();
+        platforms.create(220, 1360, 'ground').setScale(0.5).refreshBody();
+        platforms.create(700, 1360, 'ground').setScale(0.5).refreshBody();
 
         //  Piso
-        platforms.create(400, 1530, 'ground').setScale(2.2).refreshBody();
+        platforms.create(400, 1565, 'ground').setScale(2.2).refreshBody();
 
         //Plataforma oscilante horizontal
         var plat2 = this.physics.add.image(200, 360, 'ground').setScale(0.5);
@@ -69,19 +69,19 @@ class Scene2 extends Phaser.Scene {
         });
 
         //////////////////////////////jugador y cazador////////////////////////////////////
-        cazador = this.physics.add.image(35, 300, 'hunter');
+        cazador = this.physics.add.sprite(1, 300, 'hunter');
         cazador.setBounce(0);
         cazador.setCollideWorldBounds(true);
-        cazador.setScale(0.25);
+        cazador.setScale(0.24);
         cazador.setGravity(0, 300);
 
         // The player and its settings
-        player = this.physics.add.sprite(400, 1400, 'dude');
+        player = this.physics.add.sprite(400, 1400, 'Dino1');
 
         //  Player physics properties.
         player.setBounce(0);
         player.setCollideWorldBounds(true);
-        player.setScale(0.85);
+        player.setScale(0.24);
 
         //  Input Events
         if (cursors = !undefined) {
@@ -91,12 +91,15 @@ class Scene2 extends Phaser.Scene {
         //  Some stars to collect, 12 in total, evenly spaced 70 pixels apart along the x axis
         stars = this.physics.add.group({
             key: 'star',
+            sprite: 'star',
+            frames: [{ key: 'star', frame: 3 }],
             repeat: 5,
             setXY: {
                 x: 12,
-                y: 0,
+                y: 12,
                 stepX: 140
             }
+
         });
 
         stars2 = this.physics.add.group({
@@ -109,14 +112,14 @@ class Scene2 extends Phaser.Scene {
             }
         });
 
-        stars.children.iterate(function(child) {
+        stars.children.iterate(function (child) {
 
             //  Give each star a slightly different bounce
             child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
 
         });
 
-        stars2.children.iterate(function(child) {
+        stars2.children.iterate(function (child) {
 
             //  Give each star a slightly different bounce
             child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
@@ -150,7 +153,7 @@ class Scene2 extends Phaser.Scene {
 
         // inicializador de tiempo
         initialTime = 180
-            //timedEvent = this.time.delayedCall(1000, this.onSecond, [], this, true);
+        //timedEvent = this.time.delayedCall(1000, this.onSecond, [], this, true);
         timedEvent = this.time.addEvent({ delay: 1000, callback: this.onSecond, callbackScope: this, loop: true });
         timeText = this.add.text(500, 16, '', { fontSize: '32px', fill: '#000' });
 
@@ -195,15 +198,23 @@ class Scene2 extends Phaser.Scene {
             player.setVelocityX(160);
 
             player.anims.play('right', true);
-        } else {
+        }
+        else {
             player.setVelocityX(0);
 
             player.anims.play('turn');
         }
-
         if (cursors.up.isDown && player.body.touching.down) {
             player.setVelocityY(-330);
         }
+
+        //if (cursors.up.isDown && cursors.left.isDown) {
+        //player.setVelocityY(-330);
+        //player.anims.play('turnleft')
+        //} else if (cursors.up.isDown && cursors.right.isDown) {
+        //player.setVelocityY(330);
+
+        //player.anims.play('turnright')
 
         //seguimiento de cámara
         this.cameras.main.startFollow(player);
@@ -220,7 +231,7 @@ class Scene2 extends Phaser.Scene {
 
         if (stars.countActive(true) === 0) {
             //  A new batch of stars to collect
-            stars.children.iterate(function(child) {
+            stars.children.iterate(function (child) {
 
                 child.enableBody(true, child.x, 0, true, true);
 
@@ -250,7 +261,7 @@ class Scene2 extends Phaser.Scene {
         scoreText.setText(score);
 
         if (stars2.countActive(true) === 0) {
-            stars2.children.iterate(function(child) {
+            stars2.children.iterate(function (child) {
                 child.enableBody(true, child.x, 0, true, true);
             });
 

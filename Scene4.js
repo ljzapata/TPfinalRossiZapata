@@ -4,19 +4,18 @@ class Scene4 extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('logo2D', 'assets/logo2D.png');
+        this.load.image('FondoAyuda', 'assets/Escena 4 AYUDA.png');
+        this.load.image('BotonInicio', 'assets/BotonInicio.png');
     }
 
     create() {
-        this.add.image(400, 300, 'sky2');
-        this.add.image(400, 568, 'ground').setScale(1)
-        this.add.image(400, 100, 'logo2D');
+        this.add.image(400, 300, 'FondoAyuda').setScale(0.24);
 
-        var jugarButton = this.add.text(660, 550, 'Jugar', { font: '30px Montserrat', color: '#000000' })
+        var jugarButton = this.add.image(720, 550, 'BotonJugar').setScale(0.5)
             .setInteractive()
             .on('pointerdown', () => this.jugar());
 
-        var volverButton = this.add.text(80, 550, 'Volver', { font: '30px Montserrat', color: '#000000' })
+            var ayudaButton = this.add.image(80, 550, 'BotonInicio').setScale(0.5)
             .setInteractive()
             .on('pointerdown', () => this.volver());
     }
