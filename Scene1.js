@@ -5,14 +5,12 @@ class Scene1 extends Phaser.Scene {
 
     preload() {
         this.load.image('logo', 'assets/logo.png');
+        this.load.image('GameOver', 'assets/Escena 7 JUEGO PERDIDO.png');
         this.load.image('sky1', 'assets/FondoNivel1Prueba.png');
         this.load.image('sky2', 'assets/FondoNivel2.png');
         this.load.image('ground', 'assets/plat_green.png');
-        this.load.spritesheet('star', 'assets/Cabra.png', {
-            frameWidth: 192,
-            frameHeight: 128
-        });
-        this.load.image('star2', 'assets/star_red.png');
+        this.load.image('star', 'assets/Cabra1.png');
+        this.load.image('star2', 'assets/Cabra1.png');
         this.load.image('bomb', 'assets/bomb.png');
         this.load.spritesheet('hunter', 'assets/cazador.png', {
             frameWidth: 172,
@@ -26,15 +24,21 @@ class Scene1 extends Phaser.Scene {
             frameWidth: 375,
             frameHeight: 236
         });
+        
 
         //carga audio
         this.load.audio('recolestrella', 'sounds/recolestrella.mp3');
-        this.load.audio('gameover', 'sounds/gameover1.mp3');
+        this.load.audio('sonidogameover', 'sounds/boo2.mp3');
+        this.load.audio('SonidoBotonJugar', 'sounds/Sword1.mp3')
+        this.load.audio('sonidoinicio', 'sounds/sonidoinicio')
 
     }
 
     create() {
         this.add.image(400, 300, 'FondoInicio').setScale(0.24)
+
+        this.SonidoBotonJugar = this.sound.add('SonidoBotonJugar')
+        this.sonidoinicio = this.sound.add('sonidoinicio')
 
         //  Our player animations, turning, walking left and walking right.
         this.anims.create({

@@ -13,6 +13,9 @@ class Scene2 extends Phaser.Scene {
         this.physics.world.setBounds(0, 0, 800, 1600, true, true, true, true);
         this.cameras.main.setBounds(0, 0, 800, 1600);
 
+        //SONIDOS
+        this.SonidoBotonJugar = this.sound.add('SonidoBotonJugar')
+        this.sonidogameover = this.sound.add('sonidogameover')
         ////////////////////////////Mis Plataformas y Fondo///////////////////////////
         // Fondo
         this.add.image(400, 800, 'sky1').setScale(0.24);
@@ -70,7 +73,7 @@ class Scene2 extends Phaser.Scene {
 
         //////////////////////////////jugador y cazador////////////////////////////////////
         cazador = this.physics.add.sprite(1, 300, 'hunter');
-        cazador.setBounce(0);
+        //cazador.setBounce(0);
         cazador.setCollideWorldBounds(true);
         cazador.setScale(0.24);
         cazador.setGravity(0, 300);
@@ -91,15 +94,12 @@ class Scene2 extends Phaser.Scene {
         //  Some stars to collect, 12 in total, evenly spaced 70 pixels apart along the x axis
         stars = this.physics.add.group({
             key: 'star',
-            sprite: 'star',
-            frames: [{ key: 'star', frame: 3 }],
             repeat: 5,
             setXY: {
                 x: 12,
                 y: 12,
                 stepX: 140
             }
-
         });
 
         stars2 = this.physics.add.group({
@@ -145,14 +145,14 @@ class Scene2 extends Phaser.Scene {
         scoreText.setScrollFactor(0);
 
         //////////////////////////////Tiempo en pantalla////////////////////////////////
-        tempText = this.add.text(610, 560, 'Tiempo: 180', {
+        tempText = this.add.text(610, 560, 'Tiempo: 10', {
             font: '32px Montserrat',
             fill: '#000',
         });
         tempText.setScrollFactor(0);
 
         // inicializador de tiempo
-        initialTime = 180
+        initialTime = 5
         //timedEvent = this.time.delayedCall(1000, this.onSecond, [], this, true);
         timedEvent = this.time.addEvent({ delay: 1000, callback: this.onSecond, callbackScope: this, loop: true });
         timeText = this.add.text(500, 16, '', { fontSize: '32px', fill: '#000' });
@@ -219,6 +219,10 @@ class Scene2 extends Phaser.Scene {
         //seguimiento de cámara
         this.cameras.main.startFollow(player);
 
+        if (vidas == 0) {
+            this.gameOver()
+            //sintiempo.visible = false;
+        }
     }
 
 
@@ -285,12 +289,13 @@ class Scene2 extends Phaser.Scene {
     gameOver() {
         gameOver = true;
         this.physics.pause();
+        this.sonidogameover.play();
 
         player.setTint(0xff0000);
 
         player.anims.play('turn');
 
-        var gameOverButton = this.add.text(700, 500, 'Game Over', { fontFamily: 'Arial', fontSize: 70, color: '#ff0000' })
+        var gameOverButton = this.add.image(700, 500, 'GameOver').setScale(0.24)
             .setInteractive()
             .on('pointerdown', () => this.scene.start('creditos'));
         Phaser.Display.Align.In.Center(gameOverButton, this.add.zone(400, 300, 800, 600));
@@ -304,17 +309,22 @@ class Scene2 extends Phaser.Scene {
             tempText.setText('Tiempo: ' + initialTime);
             if (initialTime == 0) {
 
-                var sintiempo = this.add.text(700, 500, 'Sin tiempo\nPerdes una vida', { fontFamily: 'Arial', fontSize: 70, color: '#ff0000' });
+                initialTime = 5;
+                
+                vidas = vidas - 1;
+                vidasText.setText('Vidas:' + vidas);
+
+                if (vidas ) {
+                    var sintiempo = this.add.text(700, 500, 'Sin tiempo\nPerdes una vida', { fontFamily: 'Arial', fontSize: 70, color: '#ff0000' });
                 Phaser.Display.Align.In.Center(sintiempo, this.add.zone(400, 300, 800, 600));
-                sintiempo.setScrollFactor(0);
+                sintiempo.setScrollFactor(0); //texto fijo en la camara
 
                 setTimeout(() => {
                     sintiempo.visible = false;
                 }, 2000);
 
-                initialTime = 180;
-                vidas = vidas - 1;
-
+                }
+                
             }
         }
 
