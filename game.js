@@ -32,7 +32,10 @@ var cursors;
 var scoreText;
 
 var timedEvent;
-var initialTime;
+
+var initialTime = 30;
+var time;
+
 var timeText;
 
 var stars2;

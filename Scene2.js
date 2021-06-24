@@ -72,11 +72,11 @@ class Scene2 extends Phaser.Scene {
         });
 
         //////////////////////////////jugador y cazador////////////////////////////////////
-        cazador = this.physics.add.sprite(1, 300, 'hunter');
-        cazador.setBounce(0);
-        cazador.setCollideWorldBounds(true);
-        cazador.setScale(0.24);
-        cazador.setGravity(0, 300);
+        //cazador = this.physics.add.sprite(1, 300, 'hunter');
+        //cazador.setBounce(0);
+        //cazador.setCollideWorldBounds(true);
+        //cazador.setScale(0.24);
+        //cazador.setGravity(0, 300);
 
         // The player and its settings
         player = this.physics.add.sprite(400, 1400, 'Dino1');
@@ -149,15 +149,16 @@ class Scene2 extends Phaser.Scene {
         scoreText.setScrollFactor(0);
 
         //////////////////////////////Tiempo en pantalla////////////////////////////////
-        tempText = this.add.text(610, 560, 'Tiempo: 10', {
+        tempText = this.add.text(610, 560, 'Tiempo: ' + initialTime, {
             font: '32px Montserrat',
             fill: '#000',
         });
         tempText.setScrollFactor(0);
 
-        // inicializador de tiempo
-        initialTime = 30
+        
         //timedEvent = this.time.delayedCall(1000, this.onSecond, [], this, true);
+        // inicializador de tiempo
+        time = initialTime
         timedEvent = this.time.addEvent({ delay: 1000, callback: this.onSecond, callbackScope: this, loop: true });
         timeText = this.add.text(500, 16, '', { fontSize: '32px', fill: '#000' });
 
@@ -178,7 +179,10 @@ class Scene2 extends Phaser.Scene {
         this.physics.add.collider(stars2, plat2);
         this.physics.add.collider(bombs, platforms);
         this.physics.add.collider(bombs, plat2);
-        this.physics.add.collider(cazador, plat3);
+        //this.physics.add.collider(cazador, plat3);
+        this.physics.add.collider(stars, plat3);
+        this.physics.add.collider(stars2, plat3);
+        this.physics.add.collider(player, plat3);
 
         //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
         this.physics.add.overlap(player, stars, this.collectStar, null, this);
@@ -314,11 +318,11 @@ class Scene2 extends Phaser.Scene {
 
     onSecond() {
         if (!gameOver) {
-            initialTime = initialTime - 1; // One second
-            tempText.setText('Tiempo: ' + initialTime);
-            if (initialTime == 0) {
+            time = time - 1; // One second
+            tempText.setText('Tiempo: ' + time);
+            if (time == 0) {
 
-                initialTime = 30;
+                time = initialTime;
                 
                 vidas = vidas - 1;
                 vidasText.setText('Vidas:' + vidas);
