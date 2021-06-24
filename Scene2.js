@@ -73,7 +73,7 @@ class Scene2 extends Phaser.Scene {
 
         //////////////////////////////jugador y cazador////////////////////////////////////
         cazador = this.physics.add.sprite(1, 300, 'hunter');
-        //cazador.setBounce(0);
+        cazador.setBounce(0);
         cazador.setCollideWorldBounds(true);
         cazador.setScale(0.24);
         cazador.setGravity(0, 300);
@@ -92,28 +92,32 @@ class Scene2 extends Phaser.Scene {
         }
 
         //  Some stars to collect, 12 in total, evenly spaced 70 pixels apart along the x axis
+        
+        //Empiezan a caer desde la altura Y = 10, y subiendo 150 unidades por cada una
+
         stars = this.physics.add.group({
             key: 'star',
             repeat: 5,
             setXY: {
-                x: 12,
-                y: 12,
-                stepX: 140
+                x: 70,
+                y: 10,
+                stepX: 100,
+                stepY: 220,
             }
         });
-
+        //Empiezan a caer desde la altura Y = 750, y bajando 150 unidades por cada una
         stars2 = this.physics.add.group({
             key: 'star2',
             repeat: 5,
             setXY: {
-                x: 82,
-                y: 0,
-                stepX: 140
+                x: 150,
+                y: 1300,
+                stepX: 100,
+                stepY: -220,
             }
         });
 
         stars.children.iterate(function (child) {
-
             //  Give each star a slightly different bounce
             child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
 
@@ -152,7 +156,7 @@ class Scene2 extends Phaser.Scene {
         tempText.setScrollFactor(0);
 
         // inicializador de tiempo
-        initialTime = 5
+        initialTime = 30
         //timedEvent = this.time.delayedCall(1000, this.onSecond, [], this, true);
         timedEvent = this.time.addEvent({ delay: 1000, callback: this.onSecond, callbackScope: this, loop: true });
         timeText = this.add.text(500, 16, '', { fontSize: '32px', fill: '#000' });
@@ -232,12 +236,15 @@ class Scene2 extends Phaser.Scene {
         //  Add and update the score
         score += 10;
         scoreText.setText(score);
-
+        
+        console.log(stars.countActive(true))
+        
         if (stars.countActive(true) === 0) {
             //  A new batch of stars to collect
             stars.children.iterate(function (child) {
 
-                child.enableBody(true, child.x, 0, true, true);
+                // cuando se vuelve a mostrar, se cambia la posicion
+                child.enableBody(true, child.x, Phaser.Math.Between(20, 1300), true, true);
 
             });
 
@@ -264,9 +271,11 @@ class Scene2 extends Phaser.Scene {
         score += 15;
         scoreText.setText(score);
 
+        console.log(stars2.countActive(true))
+
         if (stars2.countActive(true) === 0) {
             stars2.children.iterate(function (child) {
-                child.enableBody(true, child.x, 0, true, true);
+                child.enableBody(true, child.x, Phaser.Math.Between(20, 1300), true, true);
             });
 
             var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
@@ -309,7 +318,7 @@ class Scene2 extends Phaser.Scene {
             tempText.setText('Tiempo: ' + initialTime);
             if (initialTime == 0) {
 
-                initialTime = 5;
+                initialTime = 30;
                 
                 vidas = vidas - 1;
                 vidasText.setText('Vidas:' + vidas);
