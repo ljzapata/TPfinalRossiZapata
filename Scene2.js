@@ -325,13 +325,12 @@ class Scene2 extends Phaser.Scene {
 
                 if (vidas ) {
                     var sintiempo = this.add.text(700, 500, 'Sin tiempo\nPerdes una vida', { fontFamily: 'Arial', fontSize: 70, color: '#ff0000' });
-                Phaser.Display.Align.In.Center(sintiempo, this.add.zone(400, 300, 800, 600));
-                sintiempo.setScrollFactor(0); //texto fijo en la camara
+                    Phaser.Display.Align.In.Center(sintiempo, this.add.zone(400, 300, 800, 600));
+                    sintiempo.setScrollFactor(0); //texto fijo en la camara
 
-                setTimeout(() => {
-                    sintiempo.visible = false;
-                }, 2000);
-
+                    setTimeout(() => {
+                        sintiempo.visible = false;
+                    }, 2000);
                 }
                 
             }
