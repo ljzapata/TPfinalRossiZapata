@@ -25,14 +25,14 @@ class Scene1 extends Phaser.Scene {
             frameHeight: 236
         });
         this.load.image('vidamenos', 'assets/UnaVidaMenos.png');
-        
+
 
         //carga audio
         this.load.audio('sonidofondo1', 'sounds/sonidofondo1.mp3')
         this.load.audio('comercabra', 'sounds/powerups2.mp3');
         this.load.audio('sonidogameover', 'sounds/gameover2.mp3');
         this.load.audio('SonidoBotonJugar', 'sounds/Sword1.mp3')
-        //this.load.audio('sonidoinicio', 'sounds/sonidoinicio')
+            //this.load.audio('sonidoinicio', 'sounds/sonidoinicio')
 
     }
 
@@ -40,7 +40,7 @@ class Scene1 extends Phaser.Scene {
         this.add.image(400, 300, 'FondoInicio').setScale(0.24)
 
         this.SonidoBotonJugar = this.sound.add('SonidoBotonJugar')
-        //this.sonidoinicio = this.sound.add('sonidoinicio')
+            //this.sonidoinicio = this.sound.add('sonidoinicio')
 
         //  Our player animations, turning, walking left and walking right.
         this.anims.create({
