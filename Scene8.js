@@ -13,11 +13,11 @@ class Scene8 extends Phaser.Scene {
 
         var jugarButton = this.add.image(720, 550, 'BotonJugar').setScale(0.5)
             .setInteractive()
-            .on('pointerdown', () => this.jugar());
+            .on('pointerdown', () => this.sound.play('sonidoboton') & this.jugar());
 
         var ayudaButton = this.add.image(80, 550, 'BotonInicio').setScale(0.5)
             .setInteractive()
-            .on('pointerdown', () => this.volver());
+            .on('pointerdown', () => this.sound.play('sonidoboton') & this.volver());
 
         scoreText = this.add.text(130, 300, score, {
             font: '80px Montserrat',

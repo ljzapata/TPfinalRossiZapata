@@ -4,7 +4,7 @@ class Scene4 extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('FondoAyuda', 'assets/Escena 4 AYUDA.png');
+        this.load.image('FondoAyuda', 'assets/Escena 4 AYUDA2.png');
         this.load.image('BotonInicio', 'assets/BotonInicio.png');
     }
 
@@ -13,11 +13,11 @@ class Scene4 extends Phaser.Scene {
 
         var jugarButton = this.add.image(720, 550, 'BotonJugar').setScale(0.5)
             .setInteractive()
-            .on('pointerdown', () => this.jugar());
+            .on('pointerdown', () => this.sound.play('sonidoboton') & this.jugar());
 
             var ayudaButton = this.add.image(80, 550, 'BotonInicio').setScale(0.5)
             .setInteractive()
-            .on('pointerdown', () => this.volver());
+            .on('pointerdown', () => this.sound.play('sonidoboton') & this.volver());
     }
 
     jugar() {

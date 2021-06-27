@@ -11,7 +11,7 @@ var config = {
         default: 'arcade',
         arcade: {
             gravity: { y: 300 },
-            debug: true
+            debug: false
         }
     },
     scene: [Scene1, Scene2, Scene3, Scene4, Scene5, Scene6, Scene7, Scene8]
@@ -33,7 +33,7 @@ var scoreText;
 
 var timedEvent;
 
-var initialTime = 120;
+var initialTime = 180;
 var time;
 
 var timeText;

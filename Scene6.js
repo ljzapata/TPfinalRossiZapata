@@ -11,11 +11,11 @@ class Scene6 extends Phaser.Scene {
 
         var jugarButton = this.add.text(660, 550, 'Jugar', { font: '30px Montserrat', color: '#000000' })
             .setInteractive()
-            .on('pointerdown', () => this.jugar());
+            .on('pointerdown', () => this.sound.play('sonidoboton') & this.jugar());
 
         var volverButton = this.add.text(80, 550, 'Inicio', { font: '30px Montserrat', color: '#000000' })
             .setInteractive()
-            .on('pointerdown', () => this.volver());
+            .on('pointerdown', () => this.sound.play('sonidoboton') & this.volver());
     }
 
     jugar() {

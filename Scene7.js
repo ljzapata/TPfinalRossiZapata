@@ -14,11 +14,13 @@ class Scene7 extends Phaser.Scene {
         this.cameras.main.setBounds(0, 0, 800, 1600);
 
         //SONIDOS
-        this.SonidoBotonJugar = this.sound.add('SonidoBotonJugar')
-        this.sonidogameover = this.sound.add('sonidogameover')
+        this.sonido1 = this.sound.add('sonidofondo1',{ volume: 0.1 });
+        this.sonido1.loop = true;
+        this.sonido1.play();
+        this.sonidogameover = this.sound.add('sonidogameover',{ volume: 0.1 })
             ////////////////////////////Mis Plataformas y Fondo///////////////////////////
             // Fondo
-        this.add.image(400, 800, 'sky1').setScale(0.24);
+        this.add.image(400, 800, 'sky2').setScale(0.24);
 
         //  The platforms group contains the ground and the 2 ledges we can jump on
         platforms = this.physics.add.staticGroup();
@@ -37,10 +39,10 @@ class Scene7 extends Phaser.Scene {
         platforms.create(220, 1120, 'ground').setScale(0.35).refreshBody();
         platforms.create(450, 1200, 'ground').setScale(0.35).refreshBody();
         platforms.create(350, 1280, 'ground').setScale(0.35).refreshBody();
-        platforms.create(200, 1360, 'ground').setScale(0.35).refreshBody();
-        platforms.create(500, 1360, 'ground').setScale(0.35).refreshBody();
+        platforms.create(200, 1365, 'ground').setScale(0.35).refreshBody();
+        platforms.create(500, 1365, 'ground').setScale(0.35).refreshBody();
         platforms.create(730, 1360, 'ground').setScale(0.35).refreshBody();
-        platforms.create(350, 1440, 'ground').setScale(0.35).refreshBody();
+        platforms.create(350, 1450, 'ground').setScale(0.35).refreshBody();
 
 
         //  Piso
@@ -105,13 +107,6 @@ class Scene7 extends Phaser.Scene {
             yoyo: true,
             repeat: -1
         });
-
-        //////////////////////////////jugador y cazador////////////////////////////////////
-        //cazador = this.physics.add.sprite(1, 300, 'hunter');
-        //cazador.setBounce(0);
-        //cazador.setCollideWorldBounds(true);
-        //cazador.setScale(0.24);
-        //cazador.setGravity(0, 300);
 
         // The player and its settings
         player = this.physics.add.sprite(400, 1400, 'Dino1');
@@ -248,7 +243,7 @@ class Scene7 extends Phaser.Scene {
             player.anims.play('turn');
         }
         if (cursors.up.isDown && player.body.touching.down) {
-            player.setVelocityY(-220);
+            player.setVelocityY(-230);
         }
 
         //seguimiento de cámara
@@ -260,6 +255,7 @@ class Scene7 extends Phaser.Scene {
         }
 
         if (score >= 1200) {
+            this.sound.stopAll();
             this.scene.start('terminado');
         }
     }
@@ -335,7 +331,7 @@ class Scene7 extends Phaser.Scene {
             vidasText.setText('Vidas:' + vidas);
             roca.disableBody(true, true);
             this.physics.pause();
-            var resumegame = this.add.image(700, 500, 'vidamenos').setScale(0.24)
+            var resumegame = this.add.image(700, 500, 'vidamenos2').setScale(0.24)
                 .setInteractive()
                 .on('pointerdown', () => resumegame.visible = false & this.reinicio());
             Phaser.Display.Align.In.Center(resumegame, this.add.zone(400, 300, 800, 600));
@@ -355,6 +351,7 @@ class Scene7 extends Phaser.Scene {
     gameOver() {
         gameOver = true;
         this.physics.pause();
+        this.sound.stopAll();
         this.sonidogameover.play();
 
         player.setTint(0xff0000);
@@ -363,7 +360,7 @@ class Scene7 extends Phaser.Scene {
 
         var gameOverButton = this.add.image(700, 500, 'GameOver').setScale(0.24)
             .setInteractive()
-            .on('pointerdown', () => this.scene.start('creditos'));
+            .on('pointerdown', () => this.sound.play('sonidoboton') & this.scene.start('creditos'));
         Phaser.Display.Align.In.Center(gameOverButton, this.add.zone(400, 300, 800, 600));
 
         gameOverButton.setScrollFactor(0);

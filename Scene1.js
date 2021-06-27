@@ -7,7 +7,7 @@ class Scene1 extends Phaser.Scene {
         this.load.image('logo', 'assets/logo.png');
         this.load.image('GameOver', 'assets/Escena 7 JUEGO PERDIDO.png');
         this.load.image('sky1', 'assets/FondoNivel1Prueba.png');
-        this.load.image('sky2', 'assets/FondoNivel2.png');
+        this.load.image('sky2', 'assets/FondoNivel2Prueba.png');
         this.load.image('ground', 'assets/plat_green.png');
         this.load.image('cabra', 'assets/Cabra1.png');
         this.load.image('cabra2', 'assets/cabra2.png');
@@ -25,13 +25,16 @@ class Scene1 extends Phaser.Scene {
             frameHeight: 236
         });
         this.load.image('vidamenos', 'assets/UnaVidaMenos.png');
+        this.load.image('vidamenos2', 'assets/UnaVidaMenos2.png');
 
 
         //carga audio
-        this.load.audio('sonidofondo1', 'sounds/sonidofondo1.mp3')
+        this.load.audio('sonidofondo0', 'sounds/sonidoinicio.mp3');
+        this.load.audio('sonidofondo1', 'sounds/sonidofondo1.mp3');
+        this.load.audio('sonidofondo2', 'sounds/sonidofondo2.mp3');
         this.load.audio('comercabra', 'sounds/powerups2.mp3');
         this.load.audio('sonidogameover', 'sounds/gameover2.mp3');
-        this.load.audio('SonidoBotonJugar', 'sounds/Sword1.mp3')
+        this.load.audio('sonidoboton', 'sounds/Switch3.mp3');
             //this.load.audio('sonidoinicio', 'sounds/sonidoinicio')
 
     }
@@ -39,8 +42,9 @@ class Scene1 extends Phaser.Scene {
     create() {
         this.add.image(400, 300, 'FondoInicio').setScale(0.24)
 
-        this.SonidoBotonJugar = this.sound.add('SonidoBotonJugar')
-            //this.sonidoinicio = this.sound.add('sonidoinicio')
+        this.sonido0 = this.sound.add('sonidofondo0',{ volume: 0.1 });
+        this.sonido0.loop = true;
+        this.sonido0.play();
 
         //  Our player animations, turning, walking left and walking right.
         this.anims.create({
@@ -75,15 +79,15 @@ class Scene1 extends Phaser.Scene {
 
         var jugarButton = this.add.image(400, 550, 'BotonJugar').setScale(0.5)
             .setInteractive()
-            .on('pointerdown', () => this.jugar());
+            .on('pointerdown', () => this.sound.stopAll() & this.sound.play('sonidoboton') & this.jugar());
 
         var ayudaButton = this.add.image(80, 550, 'BotonAyuda').setScale(0.5)
             .setInteractive()
-            .on('pointerdown', () => this.ayuda());
+            .on('pointerdown', () => this.sound.stopAll() & this.sound.play('sonidoboton') & this.ayuda());
 
         var creditosButton = this.add.image(720, 550, 'BotonCreditos').setScale(0.5)
             .setInteractive()
-            .on('pointerdown', () => this.creditos());
+            .on('pointerdown', () => this.sound.stopAll() & this.sound.play('sonidoboton') & this.creditos());
     }
 
     jugar() {
