@@ -9,9 +9,9 @@ class Scene1 extends Phaser.Scene {
         this.load.image('sky1', 'assets/FondoNivel1Prueba.png');
         this.load.image('sky2', 'assets/FondoNivel2.png');
         this.load.image('ground', 'assets/plat_green.png');
-        this.load.image('star', 'assets/Cabra1.png');
-        this.load.image('star2', 'assets/Cabra1.png');
-        this.load.image('bomb', 'assets/bomb.png');
+        this.load.image('cabra', 'assets/Cabra1.png');
+        this.load.image('cabra2', 'assets/cabra2.png');
+        this.load.image('roca', 'assets/meteoritoRedondo.png');
         this.load.spritesheet('hunter', 'assets/cazador.png', {
             frameWidth: 172,
             frameHeight: 192
@@ -24,6 +24,7 @@ class Scene1 extends Phaser.Scene {
             frameWidth: 375,
             frameHeight: 236
         });
+        this.load.image('vidamenos', 'assets/UnaVidaMenos.png');
         
 
         //carga audio
@@ -82,7 +83,7 @@ class Scene1 extends Phaser.Scene {
         });
 
         this.anims.create({
-            frames: [{ key: 'star', frame: 3 }],
+            frames: [{ key: 'cabra', frame: 3 }],
             frameRate: 20
         });
 

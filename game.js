@@ -25,20 +25,20 @@ var gameOver;
 var player;
 var cazador;
 var cazador2;
-var stars;
-var bombs;
+var cabras;
+var rocas;
 var platforms;
 var cursors;
 var scoreText;
 
 var timedEvent;
 
-var initialTime = 30;
+var initialTime = 120;
 var time;
 
 var timeText;
 
-var stars2;
+var cabras2;
 
 var x1 = 0;
 var x2 = 10;

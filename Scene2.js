@@ -23,7 +23,7 @@ class Scene2 extends Phaser.Scene {
         //  The platforms group contains the ground and the 2 ledges we can jump on
         platforms = this.physics.add.staticGroup();
 
-        platforms.create(650, 260, 'ground').setScale(0.5).refreshBody();
+        platforms.create(620, 260, 'ground').setScale(0.5).refreshBody();
         platforms.create(220, 460, 'ground').setScale(0.5).refreshBody();
         platforms.create(790, 510, 'ground').setScale(0.5).refreshBody();
         platforms.create(600, 610, 'ground').setScale(0.5).refreshBody();
@@ -48,7 +48,7 @@ class Scene2 extends Phaser.Scene {
 
         var tween = this.tweens.add({
             targets: plat2,
-            duration: 2000,
+            duration: 3000,
             x: 600,
             paused: false,
             yoyo: true,
@@ -84,55 +84,53 @@ class Scene2 extends Phaser.Scene {
         //  Player physics properties.
         player.setBounce(0);
         player.setCollideWorldBounds(true);
-        player.setScale(0.24);
+        player.setScale(0.2);
 
         //  Input Events
         if (cursors = !undefined) {
             cursors = this.input.keyboard.createCursorKeys();
         }
 
-        //  Some stars to collect, 12 in total, evenly spaced 70 pixels apart along the x axis
-        
-        //Empiezan a caer desde la altura Y = 10, y subiendo 150 unidades por cada una
+        //Empiezan a caer desde la altura Y = 10, y subiendo 220 unidades por cada una
 
-        stars = this.physics.add.group({
-            key: 'star',
-            repeat: 5,
+        cabras = this.physics.add.group({
+            key: 'cabra',
+            repeat: 4,
             setXY: {
-                x: 70,
+                x: 80,
                 y: 10,
-                stepX: 100,
+                stepX: 150,
                 stepY: 220,
             }
         });
-        //Empiezan a caer desde la altura Y = 750, y bajando 150 unidades por cada una
-        stars2 = this.physics.add.group({
-            key: 'star2',
-            repeat: 5,
+        //Empiezan a caer desde la altura Y = 750, y bajando 220 unidades por cada una
+        cabras2 = this.physics.add.group({
+            key: 'cabra2',
+            repeat: 4,
             setXY: {
                 x: 150,
                 y: 1300,
-                stepX: 100,
+                stepX: 150,
                 stepY: -220,
             }
         });
 
-        stars.children.iterate(function (child) {
-            //  Give each star a slightly different bounce
+        cabras.children.iterate(function (child) {
+            //  Darle a cada cabra distinto rebote(bounce)
             child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
 
         });
 
-        stars2.children.iterate(function (child) {
+        cabras2.children.iterate(function (child) {
 
-            //  Give each star a slightly different bounce
+            //  Darle a cada cabra distinto rebote(bounce)
             child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
 
         });
 
-        bombs = this.physics.add.group();
+        rocas = this.physics.add.group();
 
-        //  Score
+        //  Puntaje
         scoreText = this.add.text(320, 16, '00', {
             font: '80px Montserrat',
             fill: '#ff0000',
@@ -155,9 +153,7 @@ class Scene2 extends Phaser.Scene {
         });
         tempText.setScrollFactor(0);
 
-        
-        //timedEvent = this.time.delayedCall(1000, this.onSecond, [], this, true);
-        // inicializador de tiempo
+        // Inicializador de tiempo
         time = initialTime
         timedEvent = this.time.addEvent({ delay: 1000, callback: this.onSecond, callbackScope: this, loop: true });
         timeText = this.add.text(500, 16, '', { fontSize: '32px', fill: '#000' });
@@ -170,24 +166,23 @@ class Scene2 extends Phaser.Scene {
         });
         vidasText.setScrollFactor(0);
 
-        //  Collide the player and the stars with the platforms
+        //  Colision player con platforms & cabras con platforms & player con meteorito
         this.physics.add.collider(player, platforms);
         this.physics.add.collider(player, plat2);
-        this.physics.add.collider(stars, platforms);
-        this.physics.add.collider(stars, plat2);
-        this.physics.add.collider(stars2, platforms);
-        this.physics.add.collider(stars2, plat2);
-        this.physics.add.collider(bombs, platforms);
-        this.physics.add.collider(bombs, plat2);
-        //this.physics.add.collider(cazador, plat3);
-        this.physics.add.collider(stars, plat3);
-        this.physics.add.collider(stars2, plat3);
+        this.physics.add.collider(cabras, platforms);
+        this.physics.add.collider(cabras, plat2);
+        this.physics.add.collider(cabras2, platforms);
+        this.physics.add.collider(cabras2, plat2);
+        this.physics.add.collider(rocas, platforms);
+        this.physics.add.collider(rocas, plat2);
+        this.physics.add.collider(cabras, plat3);
+        this.physics.add.collider(cabras2, plat3);
         this.physics.add.collider(player, plat3);
 
-        //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
-        this.physics.add.overlap(player, stars, this.collectStar, null, this);
-        this.physics.add.overlap(player, stars2, this.collectStarRed, null, this);
-        this.physics.add.collider(player, bombs, this.hitBomb, null, this);
+        //  Checks to see if the player overlaps with any of the cabras, if he does call the collectCabras function
+        this.physics.add.overlap(player, cabras, this.collectCabras, null, this);
+        this.physics.add.overlap(player, cabras2, this.collectCabras2, null, this);
+        this.physics.add.collider(player, rocas, this.hitRoca, null, this);
 
 
 
@@ -234,18 +229,18 @@ class Scene2 extends Phaser.Scene {
     }
 
 
-    collectStar(player, star) {
-        star.disableBody(true, true);
+    collectCabras(player, cabra) {
+        cabra.disableBody(true, true);
 
         //  Add and update the score
         score += 10;
         scoreText.setText(score);
         
-        console.log(stars.countActive(true))
+        console.log(cabras.countActive(true))
         
-        if (stars.countActive(true) === 0) {
-            //  A new batch of stars to collect
-            stars.children.iterate(function (child) {
+        if (cabras.countActive(true) === 0) {
+            //  A new batch of cabras to collect
+            cabras.children.iterate(function (child) {
 
                 // cuando se vuelve a mostrar, se cambia la posicion
                 child.enableBody(true, child.x, Phaser.Math.Between(20, 1300), true, true);
@@ -254,11 +249,12 @@ class Scene2 extends Phaser.Scene {
 
             var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
 
-            var bomb = bombs.create(x, 16, 'bomb');
-            bomb.setBounce(1);
-            bomb.setCollideWorldBounds(true);
-            bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
-            bomb.allowGravity = false;
+            var roca = rocas.create(x, 16, 'roca');
+            roca.setBounce(1);
+            roca.setCollideWorldBounds(true);
+            roca.setVelocity(Phaser.Math.Between(-200, 200), Phaser.Math.Between(0.05, 0.15));
+            roca.allowGravity = false;
+            roca.setScale(0.5);
 
         }
 
@@ -268,35 +264,56 @@ class Scene2 extends Phaser.Scene {
 
     }
 
-    collectStarRed(player, star) {
-        star.disableBody(true, true);
+    collectCabras2(player, cabra2) {
+        cabra2.disableBody(true, true);
 
         //  Puntaje para las estrellas rojas
         score += 15;
         scoreText.setText(score);
 
-        console.log(stars2.countActive(true))
+        console.log(cabras2.countActive(true))
 
-        if (stars2.countActive(true) === 0) {
-            stars2.children.iterate(function (child) {
+        if (cabras2.countActive(true) === 0) {
+            cabras2.children.iterate(function (child) {
                 child.enableBody(true, child.x, Phaser.Math.Between(20, 1300), true, true);
             });
 
             var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
 
-            var bomb = bombs.create(x, 16, 'bomb');
-            bomb.setBounce(1);
-            bomb.setCollideWorldBounds(true);
-            bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
-            bomb.allowGravity = false;
+            var roca = rocas.create(x, 16, 'roca');
+            roca.setBounce(1);
+            roca.setCollideWorldBounds(true);
+            roca.setVelocity(Phaser.Math.Between(-200, 200), Phaser.Math.Between(0.05, 0.15));
+            roca.allowGravity = false;
+            roca.setScale(0.8);
+
         }
         //reproducir sonido
         let sound = this.sound.add('recolestrella', { volume: 0.3 });
         sound.play();
     }
 
-    hitBomb(player, bomb) {
-        this.gameOver()
+    hitRoca(player, roca) {
+        if (vidas > 1) {
+            vidas = vidas - 1;
+            vidasText.setText('Vidas:' + vidas);
+            roca.disableBody(true, true);
+            this.physics.pause();
+            var resumegame = this.add.image(700, 500, 'vidamenos').setScale(0.24)
+            .setInteractive()
+            .on('pointerdown', () => resumegame.visible = false & this.reinicio () );
+            Phaser.Display.Align.In.Center(resumegame, this.add.zone(400, 300, 800, 600));
+            resumegame.setScrollFactor(0); 
+            //this.scene.pause();
+            
+        } else {
+            this.gameOver();
+        }
+        
+    }
+    reinicio () {
+        this.physics.resume();
+        //resumegame.visible = false;
     }
 
     gameOver() {
@@ -328,7 +345,7 @@ class Scene2 extends Phaser.Scene {
                 vidasText.setText('Vidas:' + vidas);
 
                 if (vidas ) {
-                    var sintiempo = this.add.text(700, 500, 'Sin tiempo\nPerdes una vida', { fontFamily: 'Arial', fontSize: 70, color: '#ff0000' });
+                    var sintiempo = this.add.image(700, 500, 'vidamenos').setScale(0.24);
                     Phaser.Display.Align.In.Center(sintiempo, this.add.zone(400, 300, 800, 600));
                     sintiempo.setScrollFactor(0); //texto fijo en la camara
 

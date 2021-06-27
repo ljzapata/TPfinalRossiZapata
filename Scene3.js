@@ -15,7 +15,7 @@ class Scene3 extends Phaser.Scene {
             .setInteractive()
             .on('pointerdown', () => this.jugar());
 
-            var ayudaButton = this.add.image(80, 550, 'BotonInicio').setScale(0.5)
+            var volverButton = this.add.image(80, 550, 'BotonInicio').setScale(0.5)
             .setInteractive()
             .on('pointerdown', () => this.volver());
     }
