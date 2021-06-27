@@ -18,6 +18,19 @@ class Scene8 extends Phaser.Scene {
         var ayudaButton = this.add.image(80, 550, 'BotonInicio').setScale(0.5)
             .setInteractive()
             .on('pointerdown', () => this.volver());
+
+        scoreText = this.add.text(130, 300, score, {
+            font: '80px Montserrat',
+            fill: '#ff0000',
+            shadow: {
+                offsetX: 3,
+                offsetY: 3,
+                color: '#ffffff',
+                blur: 5,
+                stroke: true,
+                fill: true
+            }
+        });
     }
 
     jugar() {

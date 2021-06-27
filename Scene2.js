@@ -14,11 +14,6 @@ class Scene2 extends Phaser.Scene {
         this.cameras.main.setBounds(0, 0, 800, 1600);
 
         //SONIDOS
-        game.input.touch.preventDefault = false;
-
-        music = game.add.audio('boden');
-    
-        music.play();
         this.SonidoBotonJugar = this.sound.add('SonidoBotonJugar')
         this.sonidogameover = this.sound.add('sonidogameover')
             ////////////////////////////Mis Plataformas y Fondo///////////////////////////
@@ -225,10 +220,9 @@ class Scene2 extends Phaser.Scene {
 
         if (vidas == 0) {
             this.gameOver()
-                //sintiempo.visible = false;
         }
 
-        if (score >= 10) {
+        if (score >= 400) {
             this.scene.start('superado');
         }
 

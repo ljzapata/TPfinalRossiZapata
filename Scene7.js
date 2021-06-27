@@ -6,7 +6,7 @@ class Scene7 extends Phaser.Scene {
     create() {
 
         // Inicializacion de variables.
-        score = 0;
+        score = score;
         gameOver = false;
         vidas = 3;
 
@@ -166,7 +166,7 @@ class Scene7 extends Phaser.Scene {
         rocas = this.physics.add.group();
 
         //  Puntaje
-        scoreText = this.add.text(320, 16, '00', {
+        scoreText = this.add.text(320, 16, score, {
             font: '80px Montserrat',
             fill: '#ff0000',
             shadow: {
@@ -251,14 +251,6 @@ class Scene7 extends Phaser.Scene {
             player.setVelocityY(-220);
         }
 
-        //if (cursors.up.isDown && cursors.left.isDown) {
-        //player.setVelocityY(-330);
-        //player.anims.play('turnleft')
-        //} else if (cursors.up.isDown && cursors.right.isDown) {
-        //player.setVelocityY(330);
-
-        //player.anims.play('turnright')
-
         //seguimiento de cámara
         this.cameras.main.startFollow(player);
 
@@ -267,7 +259,7 @@ class Scene7 extends Phaser.Scene {
                 //sintiempo.visible = false;
         }
 
-        if (score >= 10) {
+        if (score >= 1200) {
             this.scene.start('terminado');
         }
     }
@@ -303,7 +295,7 @@ class Scene7 extends Phaser.Scene {
         }
 
         //reproducir sonido
-        let sound = this.sound.add('recolestrella', { volume: 0.3 });
+        let sound = this.sound.add('comercabra', { volume: 0.1 });
         sound.play();
 
     }
@@ -333,7 +325,7 @@ class Scene7 extends Phaser.Scene {
 
         }
         //reproducir sonido
-        let sound = this.sound.add('recolestrella', { volume: 0.3 });
+        let sound = this.sound.add('comercabra', { volume: 0.4 });
         sound.play();
     }
 

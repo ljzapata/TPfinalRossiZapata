@@ -49,27 +49,12 @@ class Scene1 extends Phaser.Scene {
             frameRate: 10,
             repeat: -1
         });
-        //SALTO A LA IZQUIERDA (NO PUDE HACERLO FUNCIONAR)
-        //this.anims.create({
-        //key: 'turnleft',
-        //frames: this.anims.generateFrameNumbers('Dino1', { start: 2, end: 5 }),
-        //frameRate: 10,
-        //repeat: -1
-        //});
 
         this.anims.create({
             key: 'turn',
             frames: [{ key: 'Dino1', frame: 4 }],
             frameRate: 20
         });
-
-        //SALTO A LA DERECHA (NO PUDE HACERLO FUNCIONAR)
-        //this.anims.create({
-        //key: 'turnright',
-        //frames: this.anims.generateFrameNumbers('Dino1', { start: 24, end: 27 }),
-        //frameRate: 10,
-        //repeat: -1
-        //});
 
         this.anims.create({
             key: 'right',
