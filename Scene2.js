@@ -16,8 +16,8 @@ class Scene2 extends Phaser.Scene {
         //SONIDOS
         this.SonidoBotonJugar = this.sound.add('SonidoBotonJugar')
         this.sonidogameover = this.sound.add('sonidogameover')
-        ////////////////////////////Mis Plataformas y Fondo///////////////////////////
-        // Fondo
+            ////////////////////////////Mis Plataformas y Fondo///////////////////////////
+            // Fondo
         this.add.image(400, 800, 'sky1').setScale(0.24);
 
         //  The platforms group contains the ground and the 2 ledges we can jump on
@@ -115,13 +115,13 @@ class Scene2 extends Phaser.Scene {
             }
         });
 
-        cabras.children.iterate(function (child) {
+        cabras.children.iterate(function(child) {
             //  Darle a cada cabra distinto rebote(bounce)
             child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
 
         });
 
-        cabras2.children.iterate(function (child) {
+        cabras2.children.iterate(function(child) {
 
             //  Darle a cada cabra distinto rebote(bounce)
             child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
@@ -201,8 +201,7 @@ class Scene2 extends Phaser.Scene {
             player.setVelocityX(160);
 
             player.anims.play('right', true);
-        }
-        else {
+        } else {
             player.setVelocityX(0);
 
             player.anims.play('turn');
@@ -224,8 +223,13 @@ class Scene2 extends Phaser.Scene {
 
         if (vidas == 0) {
             this.gameOver()
-            //sintiempo.visible = false;
+                //sintiempo.visible = false;
         }
+
+        if (score >= 10) {
+            this.scene.start('superado');
+        }
+
     }
 
 
@@ -235,12 +239,12 @@ class Scene2 extends Phaser.Scene {
         //  Add and update the score
         score += 10;
         scoreText.setText(score);
-        
+
         console.log(cabras.countActive(true))
-        
+
         if (cabras.countActive(true) === 0) {
             //  A new batch of cabras to collect
-            cabras.children.iterate(function (child) {
+            cabras.children.iterate(function(child) {
 
                 // cuando se vuelve a mostrar, se cambia la posicion
                 child.enableBody(true, child.x, Phaser.Math.Between(20, 1300), true, true);
@@ -274,7 +278,7 @@ class Scene2 extends Phaser.Scene {
         console.log(cabras2.countActive(true))
 
         if (cabras2.countActive(true) === 0) {
-            cabras2.children.iterate(function (child) {
+            cabras2.children.iterate(function(child) {
                 child.enableBody(true, child.x, Phaser.Math.Between(20, 1300), true, true);
             });
 
@@ -300,18 +304,18 @@ class Scene2 extends Phaser.Scene {
             roca.disableBody(true, true);
             this.physics.pause();
             var resumegame = this.add.image(700, 500, 'vidamenos').setScale(0.24)
-            .setInteractive()
-            .on('pointerdown', () => resumegame.visible = false & this.reinicio () );
+                .setInteractive()
+                .on('pointerdown', () => resumegame.visible = false & this.reinicio());
             Phaser.Display.Align.In.Center(resumegame, this.add.zone(400, 300, 800, 600));
-            resumegame.setScrollFactor(0); 
+            resumegame.setScrollFactor(0);
             //this.scene.pause();
-            
+
         } else {
             this.gameOver();
         }
-        
+
     }
-    reinicio () {
+    reinicio() {
         this.physics.resume();
         //resumegame.visible = false;
     }
@@ -340,11 +344,11 @@ class Scene2 extends Phaser.Scene {
             if (time == 0) {
 
                 time = initialTime;
-                
+
                 vidas = vidas - 1;
                 vidasText.setText('Vidas:' + vidas);
 
-                if (vidas ) {
+                if (vidas) {
                     var sintiempo = this.add.image(700, 500, 'vidamenos').setScale(0.24);
                     Phaser.Display.Align.In.Center(sintiempo, this.add.zone(400, 300, 800, 600));
                     sintiempo.setScrollFactor(0); //texto fijo en la camara
@@ -353,7 +357,7 @@ class Scene2 extends Phaser.Scene {
                         sintiempo.visible = false;
                     }, 2000);
                 }
-                
+
             }
         }
 
