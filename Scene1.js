@@ -28,8 +28,9 @@ class Scene1 extends Phaser.Scene {
         
 
         //carga audio
-        this.load.audio('recolestrella', 'sounds/recolestrella.mp3');
-        this.load.audio('sonidogameover', 'sounds/boo2.mp3');
+        this.load.audio('sonidofondo1', 'sounds/sonidofondo1.mp3')
+        this.load.audio('comercabra', 'sounds/powerups2.mp3');
+        this.load.audio('sonidogameover', 'sounds/gameover2.mp3');
         this.load.audio('SonidoBotonJugar', 'sounds/Sword1.mp3')
         //this.load.audio('sonidoinicio', 'sounds/sonidoinicio')
 

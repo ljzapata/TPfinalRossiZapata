@@ -14,6 +14,11 @@ class Scene2 extends Phaser.Scene {
         this.cameras.main.setBounds(0, 0, 800, 1600);
 
         //SONIDOS
+        game.input.touch.preventDefault = false;
+
+        music = game.add.audio('boden');
+    
+        music.play();
         this.SonidoBotonJugar = this.sound.add('SonidoBotonJugar')
         this.sonidogameover = this.sound.add('sonidogameover')
         ////////////////////////////Mis Plataformas y Fondo///////////////////////////
@@ -183,9 +188,6 @@ class Scene2 extends Phaser.Scene {
         this.physics.add.overlap(player, cabras, this.collectCabras, null, this);
         this.physics.add.overlap(player, cabras2, this.collectCabras2, null, this);
         this.physics.add.collider(player, rocas, this.hitRoca, null, this);
-
-
-
     }
 
     update() {
@@ -259,7 +261,7 @@ class Scene2 extends Phaser.Scene {
         }
 
         //reproducir sonido
-        let sound = this.sound.add('recolestrella', { volume: 0.3 });
+        let sound = this.sound.add('comercabra', { volume: 0.1 });
         sound.play();
 
     }
@@ -289,7 +291,7 @@ class Scene2 extends Phaser.Scene {
 
         }
         //reproducir sonido
-        let sound = this.sound.add('recolestrella', { volume: 0.3 });
+        let sound = this.sound.add('comercabra', { volume: 0.4 });
         sound.play();
     }
 
