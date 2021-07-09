@@ -47,3 +47,7 @@ var tempText2;
 
 var vidas;
 var vidasText;
+
+var dardos;
+var ult_disparo = 200;
+var dardo;

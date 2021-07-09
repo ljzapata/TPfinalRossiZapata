@@ -27,6 +27,11 @@ class Scene1 extends Phaser.Scene {
         this.load.image('vidamenos', 'assets/UnaVidaMenos.png');
         this.load.image('vidamenos2', 'assets/UnaVidaMenos2.png');
 
+        //dardo
+        this.load.image('dardo', 'assets/dardo.png');
+
+        //caza
+        this.load.image('caza', 'assets/caza.png');
 
         //carga audio
         this.load.audio('sonidofondo0', 'sounds/sonidoinicio.mp3');
@@ -35,14 +40,14 @@ class Scene1 extends Phaser.Scene {
         this.load.audio('comercabra', 'sounds/powerups2.mp3');
         this.load.audio('sonidogameover', 'sounds/gameover2.mp3');
         this.load.audio('sonidoboton', 'sounds/Switch3.mp3');
-            //this.load.audio('sonidoinicio', 'sounds/sonidoinicio')
+        //this.load.audio('sonidoinicio', 'sounds/sonidoinicio')
 
     }
 
     create() {
         this.add.image(400, 300, 'FondoInicio').setScale(0.24)
 
-        this.sonido0 = this.sound.add('sonidofondo0',{ volume: 0.1 });
+        this.sonido0 = this.sound.add('sonidofondo0', { volume: 0.1 });
         this.sonido0.loop = true;
         this.sonido0.play();
 

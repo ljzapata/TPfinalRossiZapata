@@ -14,10 +14,10 @@ class Scene7 extends Phaser.Scene {
         this.cameras.main.setBounds(0, 0, 800, 1600);
 
         //SONIDOS
-        this.sonido1 = this.sound.add('sonidofondo1',{ volume: 0.1 });
+        this.sonido1 = this.sound.add('sonidofondo1', { volume: 0.1 });
         this.sonido1.loop = true;
         this.sonido1.play();
-        this.sonidogameover = this.sound.add('sonidogameover',{ volume: 0.1 })
+        this.sonidogameover = this.sound.add('sonidogameover', { volume: 0.1 })
             ////////////////////////////Mis Plataformas y Fondo///////////////////////////
             // Fondo
         this.add.image(400, 800, 'sky2').setScale(0.24);
@@ -78,20 +78,20 @@ class Scene7 extends Phaser.Scene {
         });
 
         //Plataforma oscilante vertical
-        var plat3 = this.physics.add.image(45, 400, 'ground').setScale(0.3);
-        plat3.body.allowGravity = false;
-        plat3.body.immovable = true;
-        plat3.body.moves = false;
+        //var plat3 = this.physics.add.image(45, 400, 'ground').setScale(0.3);
+        //plat3.body.allowGravity = false;
+        //plat3.body.immovable = true;
+        //plat3.body.moves = false;
 
-        var tween = this.tweens.add({
-            targets: plat3,
-            duration: 8000,
-            ease: 'Sine.easeInOut',
-            y: 1430,
-            paused: false,
-            yoyo: true,
-            repeat: -1
-        });
+        //var tween = this.tweens.add({
+        //targets: plat3,
+        //duration: 8000,
+        //ease: 'Sine.easeInOut',
+        //y: 1430,
+        //paused: false,
+        //yoyo: true,
+        //repeat: -1
+        //});
 
         var plat4 = this.physics.add.image(635, 800, 'ground').setScale(0.2);
         plat4.body.allowGravity = false;
@@ -107,6 +107,14 @@ class Scene7 extends Phaser.Scene {
             yoyo: true,
             repeat: -1
         });
+
+        /////////////////////////cazador///////////////////////
+        cazador = this.physics.add.image(30, 330, 'caza');
+        cazador.setBounce(0);
+        cazador.setCollideWorldBounds(true);
+        cazador.setScale(0.5);
+        cazador.body.setAllowGravity(false);
+        cazador.setVelocityY(200);
 
         // The player and its settings
         player = this.physics.add.sprite(400, 1400, 'Dino1');
@@ -196,6 +204,44 @@ class Scene7 extends Phaser.Scene {
         });
         vidasText.setScrollFactor(0);
 
+        //////////////se agrega la clase "dardo" con sus atributos y funciones////////////////
+        dardo = new Phaser.Class({
+
+            Extends: Phaser.Physics.Arcade.Sprite,
+            initialize:
+
+            //  constructor de dardo
+                function dardo(scene) {
+
+                Phaser.Physics.Arcade.Sprite.call(this, scene, 0, 0, 'dardo');
+                scene.add.existing(this);
+                scene.physics.add.existing(this);
+
+            },
+
+            //  cada vez que se dispara un dardo
+            disparo: function(x, y) {
+
+                this.setPosition(x, y);
+                this.setVelocityX(300);
+                this.setScale(0.05);
+                this.body.setAllowGravity(false);
+                this.setActive(true);
+                this.setVisible(true);
+                this.setCollideWorldBounds(false);
+
+            },
+
+        });
+
+        //  se hace un conjunto de dardos
+        dardos = this.add.group({
+
+            classType: dardo,
+            runChildUpdate: true
+
+        });
+
         //  Colision player con platforms & cabras con platforms & player con meteorito
         this.physics.add.collider(player, platforms);
         this.physics.add.collider(player, plat2);
@@ -205,13 +251,13 @@ class Scene7 extends Phaser.Scene {
         this.physics.add.collider(cabras2, plat2);
         this.physics.add.collider(rocas, platforms);
         this.physics.add.collider(rocas, plat2);
-        this.physics.add.collider(cabras, plat3);
+        //this.physics.add.collider(cabras, plat3);
         this.physics.add.collider(cabras, plat5);
         this.physics.add.collider(cabras, plat4);
-        this.physics.add.collider(cabras2, plat3);
+        //this.physics.add.collider(cabras2, plat3);
         this.physics.add.collider(cabras2, plat4);
         this.physics.add.collider(cabras2, plat5);
-        this.physics.add.collider(player, plat3);
+        //this.physics.add.collider(player, plat3);
         this.physics.add.collider(player, plat4);
         this.physics.add.collider(player, plat5);
 
@@ -219,6 +265,7 @@ class Scene7 extends Phaser.Scene {
         this.physics.add.overlap(player, cabras, this.collectCabras, null, this);
         this.physics.add.overlap(player, cabras2, this.collectCabras2, null, this);
         this.physics.add.collider(player, rocas, this.hitRoca, null, this);
+        this.physics.add.overlap(player, dardos, this.hitDardo, null, this);
 
 
 
@@ -255,9 +302,34 @@ class Scene7 extends Phaser.Scene {
         }
 
         if (score >= 1200) {
+            ult_disparo = 200;
             this.sound.stopAll();
             this.scene.start('terminado');
         }
+
+        //////////////cuándo dispara el cazador y con qué frecuencia (cada 2 seg)///////////
+        if ((cazador.y >= player.y * 0.99) & (cazador.y <= player.y * 1.01)) {
+
+            if (ult_disparo > time) {
+                var balita = dardos.get();
+
+                // esto se hace para que el disparo no aparezca delante del jugador
+                this.children.bringToTop(balita);
+                this.children.bringToTop(cazador);
+
+                if (balita) {
+                    balita.disparo(cazador.x, cazador.y);
+                    ult_disparo = time - 2;
+                }
+            }
+        }
+
+        if (cazador.body.blocked.down) {
+            cazador.setVelocityY(-200)
+        } else if (cazador.body.blocked.up) {
+            cazador.setVelocityY(200)
+        }
+
     }
 
 
@@ -343,6 +415,25 @@ class Scene7 extends Phaser.Scene {
         }
 
     }
+
+    hitDardo(player, dardos) {
+        if (vidas > 1) {
+            vidas = vidas - 1;
+            vidasText.setText('Vidas:' + vidas);
+            dardos.disableBody(false, true);
+            this.physics.pause();
+            var resumegame = this.add.image(700, 500, 'vidamenos2').setScale(0.24)
+                .setInteractive()
+                .on('pointerdown', () => resumegame.visible = false & this.reinicio());
+            Phaser.Display.Align.In.Center(resumegame, this.add.zone(400, 300, 800, 600));
+            resumegame.setScrollFactor(0);
+            //this.scene.pause();
+
+        } else {
+            this.gameOver();
+        }
+    }
+
     reinicio() {
         this.physics.resume();
         //resumegame.visible = false;
@@ -350,6 +441,9 @@ class Scene7 extends Phaser.Scene {
 
     gameOver() {
         gameOver = true;
+
+        ult_disparo = 200;
+
         this.physics.pause();
         this.sound.stopAll();
         this.sonidogameover.play();
@@ -384,6 +478,7 @@ class Scene7 extends Phaser.Scene {
 
                     setTimeout(() => {
                         sintiempo.visible = false;
+                        ult_disparo = 200;
                     }, 2000);
                 }
 
