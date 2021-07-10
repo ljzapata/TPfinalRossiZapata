@@ -280,6 +280,8 @@ class Scene2 extends Phaser.Scene {
 
             if (ult_disparo > time) {
                 var balita = dardos.get();
+                let sound = this.sound.add('sonidodardo', { volume: 0.1 });
+        sound.play();
 
                 // esto se hace para que el disparo no aparezca delante del jugador
                 this.children.bringToTop(balita);

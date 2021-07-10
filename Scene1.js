@@ -12,7 +12,7 @@ class Scene1 extends Phaser.Scene {
         this.load.image('cabra', 'assets/Cabra1.png');
         this.load.image('cabra2', 'assets/cabra2.png');
         this.load.image('roca', 'assets/meteoritoRedondo.png');
-        this.load.spritesheet('hunter', 'assets/cazador.png', {
+        this.load.spritesheet('hunter', 'assets/SpriteCazador.png', {
             frameWidth: 172,
             frameHeight: 192
         });
@@ -41,6 +41,7 @@ class Scene1 extends Phaser.Scene {
         this.load.audio('comercabra', 'sounds/powerups2.mp3');
         this.load.audio('sonidogameover', 'sounds/gameover2.mp3');
         this.load.audio('sonidoboton', 'sounds/Switch3.mp3');
+        this.load.audio('sonidodardo', 'sounds/tirocazador.mp3')
 
     }
 
