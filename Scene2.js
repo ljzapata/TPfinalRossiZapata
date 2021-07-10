@@ -77,7 +77,7 @@ class Scene2 extends Phaser.Scene {
         cazador = this.physics.add.image(30, 330, 'caza');
         cazador.setBounce(0);
         cazador.setCollideWorldBounds(true);
-        cazador.setScale(0.5);
+        cazador.setScale(0.24);
         cazador.body.setAllowGravity(false);
         cazador.setVelocityY(200);
 
@@ -190,7 +190,7 @@ class Scene2 extends Phaser.Scene {
 
                 this.setPosition(x, y);
                 this.setVelocityX(300);
-                this.setScale(0.05);
+                this.setScale(0.03);
                 this.body.setAllowGravity(false);
                 this.setActive(true);
                 this.setVisible(true);
@@ -392,7 +392,7 @@ class Scene2 extends Phaser.Scene {
             vidasText.setText('Vidas:' + vidas);
             dardos.disableBody(false, true);
             this.physics.pause();
-            var resumegame = this.add.image(700, 500, 'vidamenos2').setScale(0.24)
+            var resumegame = this.add.image(700, 500, 'vidamenos3').setScale(0.24)
                 .setInteractive()
                 .on('pointerdown', () => resumegame.visible = false & this.reinicio());
             Phaser.Display.Align.In.Center(resumegame, this.add.zone(400, 300, 800, 600));
