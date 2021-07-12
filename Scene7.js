@@ -251,6 +251,7 @@ class Scene7 extends Phaser.Scene {
         this.physics.add.collider(cabras2, plat2);
         this.physics.add.collider(rocas, platforms);
         this.physics.add.collider(rocas, plat2);
+        this.physics.add.collider(cazador, platforms);
         //this.physics.add.collider(cabras, plat3);
         this.physics.add.collider(cabras, plat5);
         this.physics.add.collider(cabras, plat4);
@@ -314,6 +315,7 @@ class Scene7 extends Phaser.Scene {
                 var balita = dardos.get();
                 let sound = this.sound.add('sonidodardo', { volume: 0.1 });
         sound.play();
+                cazador.anims.play('hunter1', true);
 
                 // esto se hace para que el disparo no aparezca delante del jugador
                 this.children.bringToTop(balita);
