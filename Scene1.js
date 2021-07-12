@@ -13,8 +13,8 @@ class Scene1 extends Phaser.Scene {
         this.load.image('cabra2', 'assets/cabra2.png');
         this.load.image('roca', 'assets/meteoritoRedondo.png');
         this.load.spritesheet('hunter', 'assets/SpriteCazador.png', {
-            frameWidth: 172,
-            frameHeight: 192
+            frameWidth: 57,
+            frameHeight: 61
         });
         this.load.image('FondoInicio', 'assets/Escena 2 INICIO.png');
         this.load.image('BotonJugar', 'assets/BotonJuego.png');
@@ -74,8 +74,9 @@ class Scene1 extends Phaser.Scene {
         });
 
         this.anims.create({
-            frames: [{ key: 'hunter', frame: 0 }],
-            frameRate: 20
+            key: 'hunter1', 
+            frames: this.anims.generateFrameNumbers('hunter', {start: 0, end: 1}),
+            frameRate: 10,
         });
 
         this.anims.create({

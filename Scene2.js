@@ -74,10 +74,10 @@ class Scene2 extends Phaser.Scene {
         //});
 
         //////////////////////////////jugador y cazador////////////////////////////////////
-        cazador = this.physics.add.image(30, 330, 'caza');
+        cazador = this.physics.add.sprite(30, 330, 'hunter', frames = 1);
         cazador.setBounce(0);
         cazador.setCollideWorldBounds(true);
-        cazador.setScale(0.24);
+        cazador.setScale(1);
         cazador.body.setAllowGravity(false);
         cazador.setVelocityY(200);
 
@@ -255,14 +255,6 @@ class Scene2 extends Phaser.Scene {
             player.setVelocityY(-330);
         }
 
-        //if (cursors.up.isDown && cursors.left.isDown) {
-        //player.setVelocityY(-330);
-        //player.anims.play('turnleft')
-        //} else if (cursors.up.isDown && cursors.right.isDown) {
-        //player.setVelocityY(330);
-
-        //player.anims.play('turnright')
-
         //seguimiento de cámara
         this.cameras.main.startFollow(player);
 
@@ -282,6 +274,7 @@ class Scene2 extends Phaser.Scene {
                 var balita = dardos.get();
                 let sound = this.sound.add('sonidodardo', { volume: 0.1 });
         sound.play();
+                cazador.anims.play('hunter1', true);
 
                 // esto se hace para que el disparo no aparezca delante del jugador
                 this.children.bringToTop(balita);
@@ -291,8 +284,10 @@ class Scene2 extends Phaser.Scene {
                     balita.disparo(cazador.x, cazador.y);
                     ult_disparo = time - 2;
                 }
+
             }
         }
+
 
         ////////////bajo la velocidad del cazador en el nivel 1////////////////
 
